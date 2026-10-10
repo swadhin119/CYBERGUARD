@@ -1002,3 +1002,107 @@ main {
     word-break: break-word;
 
 }
+/* =========================================================
+   CYBERGUARD PRO — polished responsive visual layer
+   Keeps existing component names and JavaScript hooks.
+   ========================================================= */
+:root {
+  --cg-bg: #070b14;
+  --cg-panel: #0e1625;
+  --cg-panel-2: #111d30;
+  --cg-border: rgba(148, 163, 184, .16);
+  --cg-text: #edf5ff;
+  --cg-muted: #91a3bb;
+  --cg-accent: #38e1d0;
+  --cg-blue: #62a9ff;
+  --cg-shadow: 0 22px 60px rgba(0,0,0,.28);
+}
+html { scroll-behavior: smooth; }
+body {
+  background: radial-gradient(ellipse at 50% -15%, rgba(34, 110, 160, .20), transparent 42%), var(--cg-bg) !important;
+  color: var(--cg-text);
+  letter-spacing: .005em;
+}
+body::before { opacity: .12 !important; }
+header, .header, nav, .navbar, .topbar {
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+button, input, textarea, select { font: inherit; }
+button, .analyze-btn, .primary-btn, .tool-card, .upload-label {
+  transition: transform .18s ease, border-color .18s ease, background .18s ease, box-shadow .18s ease;
+}
+button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible, [tabindex]:focus-visible {
+  outline: 2px solid var(--cg-accent) !important;
+  outline-offset: 3px;
+}
+.tool-card, .feature-card, .stat-card, .dashboard-card, .result-box, .modal-content, .tool-modal-content {
+  border: 1px solid var(--cg-border) !important;
+  box-shadow: var(--cg-shadow);
+}
+.tool-card, .feature-card {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(145deg, rgba(17,29,48,.96), rgba(10,17,30,.98)) !important;
+  border-radius: 18px !important;
+}
+.tool-card::before, .feature-card::before {
+  content: ""; position: absolute; inset: 0 0 auto; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--cg-accent), var(--cg-blue), transparent);
+  opacity: .7;
+}
+.tool-card:hover, .feature-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(56,225,208,.42) !important;
+  box-shadow: 0 22px 55px rgba(0,0,0,.35), 0 0 0 1px rgba(56,225,208,.06);
+}
+.analyze-btn, button.primary, .primary-btn {
+  background: linear-gradient(115deg, #22cdbd, #4c9dff) !important;
+  color: #05121c !important;
+  font-weight: 750 !important;
+  border: 0 !important;
+  border-radius: 12px !important;
+  box-shadow: 0 8px 24px rgba(56,225,208,.16);
+}
+.analyze-btn:hover, button.primary:hover, .primary-btn:hover { transform: translateY(-1px); filter: brightness(1.06); }
+input, textarea, select, .url-input, .email-input {
+  background: #080f1b !important;
+  color: var(--cg-text) !important;
+  border: 1px solid rgba(148,163,184,.25) !important;
+  border-radius: 12px !important;
+}
+input::placeholder, textarea::placeholder { color: #71839b !important; }
+.result-box, .analysis-details, .warnings, .dashboard-placeholder {
+  background: rgba(14,22,37,.88) !important;
+  border-radius: 14px !important;
+}
+.score-bar { height: 8px !important; border-radius: 99px !important; overflow: hidden; background: #1d2a3e !important; }
+.score-fill { border-radius: 99px !important; background: linear-gradient(90deg, #32ddbf, #5aa8ff) !important; }
+.risk-score { font-variant-numeric: tabular-nums; }
+.modal, .tool-modal, .overlay { backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+.modal-content, .tool-modal-content {
+  background: linear-gradient(145deg, #111d30, #0a111f) !important;
+  border-radius: 22px !important;
+}
+.upload-label {
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  min-height: 116px; padding: 22px; text-align: center;
+  border: 1px dashed rgba(56,225,208,.48) !important;
+  border-radius: 16px !important;
+  background: rgba(56,225,208,.045) !important;
+  cursor: pointer;
+}
+.upload-label:hover { background: rgba(56,225,208,.09) !important; border-color: var(--cg-accent) !important; }
+.warnings { border-left: 3px solid #ffb454 !important; }
+.result-box.safe { border-color: rgba(50,221,191,.35) !important; }
+.result-box.danger { border-color: rgba(255,100,120,.45) !important; }
+.break-text { overflow-wrap: anywhere; }
+@media (max-width: 760px) {
+  body { font-size: 14px; }
+  .tool-card, .feature-card { border-radius: 15px !important; }
+  .modal-content, .tool-modal-content { width: min(94vw, 620px) !important; max-height: 90vh; overflow-y: auto; }
+  .analyze-btn, .primary-btn { min-height: 46px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
+}
