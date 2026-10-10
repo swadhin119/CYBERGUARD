@@ -1,510 +1,223 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
-    <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <meta
-        name="description"
-        content="AI Powered CyberGuard - Cybersecurity and digital threat analysis platform"
-    >
-
-    <meta
-        name="theme-color"
-        content="#070d18"
-    >
-
-    <title>
-        AI Powered CYBERGUARD
-    </title>
-
-    <link
-        rel="stylesheet"
-        href="style.css"
-    >
-
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Powered CYBERGUARD</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;500;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jsQR/1.4.0/jsQR.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0}
+body{background:radial-gradient(ellipse 60% 30% at 40% 6%,#0c2038 0,#050a14 70%) #050a14 no-repeat;background-color:#050a14;color:#eaf1fb;font-family:Roboto,system-ui,sans-serif;min-height:100vh}
+.wrap{max-width:1100px;margin:0 auto;padding:56px 24px 90px}
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px}
+h1{font-family:'Noto Serif',serif;font-weight:400;font-size:clamp(40px,7vw,66px);line-height:1.12;color:#e8f1ff}
+h1 b{display:block;font-weight:700;color:#fff}
+.pill{background:#1c1d1f;color:#fff;border:0;border-radius:40px;padding:16px 28px;font:500 17px Roboto,sans-serif;cursor:pointer}
+.pill:hover{background:#2a2c2f}
+.sub{margin:78px 0 62px;color:#5d6877;font-size:clamp(17px,2.4vw,21px)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:26px}
+.card{position:relative;background:linear-gradient(#0d1a2e,#0a1424);border:1.5px solid #162640;border-radius:34px;padding:52px 56px 40px;min-height:270px;cursor:pointer;text-align:left;color:inherit;font:inherit;overflow:hidden}
+.card:before{content:"";position:absolute;top:0;left:12%;right:12%;height:3px;background:linear-gradient(90deg,transparent,#1f8a85,#2f5fb0,transparent);border-radius:3px}
+.card:hover{border-color:#25416b}
+.ic{font-size:50px;line-height:1;height:62px;display:block}
+.card h2{font-family:'Noto Serif',serif;font-weight:700;font-size:clamp(24px,3.4vw,36px);line-height:1.2;margin:22px 0 14px;color:#f4f8ff}
+.card p{color:#566274;font-size:clamp(15px,2vw,20px);line-height:1.55}
+.dash{display:block;margin:60px auto 0}
+/* modal */
+.ov{position:fixed;inset:0;background:rgba(2,6,14,.82);display:none;align-items:center;justify-content:center;padding:16px;z-index:9;backdrop-filter:blur(4px)}
+.ov.on{display:flex}
+.modal{background:#0b1626;border:1.5px solid #1b3052;border-radius:28px;width:100%;max-width:640px;max-height:92vh;overflow:auto;padding:30px}
+.modal h3{font-family:'Noto Serif',serif;font-size:26px;margin-bottom:6px}
+.modal .d{color:#6a7789;margin-bottom:20px;font-size:15px}
+.in{width:100%;background:#060d1a;border:1.5px solid #1b3052;border-radius:16px;color:#eaf1fb;padding:14px 16px;font:16px Roboto,sans-serif}
+textarea.in{min-height:150px;resize:vertical}
+.in:focus{outline:2px solid #2f5fb0}
+.row{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+.btn{background:linear-gradient(90deg,#1f8a85,#2f5fb0);color:#fff;border:0;border-radius:40px;padding:14px 26px;font:500 16px Roboto,sans-serif;cursor:pointer}
+.btn:disabled{opacity:.5}
+.btn.g{background:#1c1d1f}
+.prev{max-width:100%;max-height:220px;border-radius:14px;margin-top:14px;display:block}
+.frames{display:flex;gap:6px;overflow:auto;margin-top:12px}
+.frames img{height:70px;border-radius:8px}
+.res{margin-top:22px;border-top:1px solid #1b3052;padding-top:20px}
+.verdict{display:inline-block;border-radius:30px;padding:8px 18px;font-weight:500;margin-bottom:14px}
+.v-Safe{background:#0f3a2c;color:#5ff0b0}.v-Suspicious{background:#47370f;color:#ffd062}.v-Dangerous{background:#4a1519;color:#ff7b86}
+.bar{height:10px;background:#060d1a;border-radius:8px;overflow:hidden;margin:6px 0 14px}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,#1f8a85,#e5b13a,#e5484d)}
+.lbl{color:#6a7789;font-size:14px;display:flex;justify-content:space-between}
+.res ul{padding-left:20px;margin:8px 0 14px;color:#c3cddb;line-height:1.6}
+.res p{color:#c3cddb;line-height:1.6;margin-bottom:12px}
+.res h4{font-family:'Noto Serif',serif;margin-top:12px}
+.err{color:#ff7b86;margin-top:14px}
+.spin{display:inline-block;width:16px;height:16px;border:2px solid #fff4;border-top-color:#fff;border-radius:50%;animation:s 1s linear infinite;vertical-align:-3px;margin-right:8px}
+@keyframes s{to{transform:rotate(360deg)}}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:18px}
+.stat{background:#060d1a;border:1px solid #1b3052;border-radius:16px;padding:14px;text-align:center}
+.stat b{display:block;font:700 26px 'Noto Serif',serif}
+.stat span{color:#6a7789;font-size:13px}
+.hist{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid #14233b;font-size:14px}
+.hist small{color:#6a7789;display:block}
+@media(max-width:640px){.grid{grid-template-columns:1fr 1fr;gap:14px}.card{padding:30px 22px;border-radius:26px;min-height:0}.ic{font-size:36px;height:44px}.wrap{padding:36px 16px 70px}.pill{padding:12px 18px;font-size:15px}.sub{margin:48px 0 36px}.stats{grid-template-columns:1fr 1fr}}
+</style>
 </head>
-
-
 <body>
-
-
-<!-- =====================================================
-     HEADER
-===================================================== -->
-
-<header class="header">
-
-    <h1>
-        AI Powered
-        <strong>CYBERGUARD</strong>
-    </h1>
-
-
-    <button
-        type="button"
-        class="guidelines-btn"
-        onclick="openGuidelines()"
-    >
-        Guidelines
-    </button>
-
-</header>
-
-
-
-<!-- =====================================================
-     MAIN
-===================================================== -->
-
-<main>
-
-
-    <!-- =================================================
-         HERO
-    ================================================== -->
-
-    <section class="hero">
-
-        <p class="hero-text">
-
-            AI-powered cybersecurity and
-            digital threat analysis platform.
-
-        </p>
-
-    </section>
-
-
-
-    <!-- =================================================
-         SECURITY TOOLS
-    ================================================== -->
-
-    <section
-        class="tools-grid"
-        aria-label="CyberGuard Security Tools"
-    >
-
-
-        <!-- =================================================
-             URL
-        ================================================== -->
-
-        <div
-            class="tool-card"
-            onclick="openTool('url')"
-            role="button"
-            tabindex="0"
-            aria-label="Open URL phishing detection"
-        >
-
-            <div
-                class="tool-icon"
-                aria-hidden="true"
-            >
-                🔗
-            </div>
-
-            <h2>
-                Enter any URL
-            </h2>
-
-            <p>
-                Detect suspicious URLs
-                and phishing patterns.
-            </p>
-
-        </div>
-
-
-
-        <!-- =================================================
-             IMAGE
-        ================================================== -->
-
-        <div
-            class="tool-card"
-            onclick="openTool('image')"
-            role="button"
-            tabindex="0"
-            aria-label="Open image security analysis"
-        >
-
-            <div
-                class="tool-icon"
-                aria-hidden="true"
-            >
-                🖼️
-            </div>
-
-            <h2>
-                Enter any image
-            </h2>
-
-            <p>
-                Inspect an image for
-                suspicious characteristics.
-            </p>
-
-        </div>
-
-
-
-        <!-- =================================================
-             VIDEO
-        ================================================== -->
-
-        <div
-            class="tool-card"
-            onclick="openTool('video')"
-            role="button"
-            tabindex="0"
-            aria-label="Open video security analysis"
-        >
-
-            <div
-                class="tool-icon"
-                aria-hidden="true"
-            >
-                🎥
-            </div>
-
-            <h2>
-                Enter any video
-            </h2>
-
-            <p>
-                Inspect video properties
-                and selected frames.
-            </p>
-
-        </div>
-
-
-
-        <!-- =================================================
-             EMAIL
-        ================================================== -->
-
-        <div
-            class="tool-card"
-            onclick="openTool('email')"
-            role="button"
-            tabindex="0"
-            aria-label="Open email phishing analysis"
-        >
-
-            <div
-                class="tool-icon"
-                aria-hidden="true"
-            >
-                ✉️
-            </div>
-
-            <h2>
-                Enter any G.Mail
-            </h2>
-
-            <p>
-                Analyze email content
-                for phishing indicators.
-            </p>
-
-        </div>
-
-
-
-        <!-- =================================================
-             SOCIAL MEDIA
-        ================================================== -->
-
-        <div
-            class="tool-card"
-            onclick="openTool('social')"
-            role="button"
-            tabindex="0"
-            aria-label="Open social media impersonation analysis"
-        >
-
-            <div
-                class="tool-icon"
-                aria-hidden="true"
-            >
-                👥
-            </div>
-
-            <h2>
-                Enter any social media ID
-            </h2>
-
-            <p>
-                Check usernames for
-                impersonation patterns.
-            </p>
-
-        </div>
-
-
-
-        <!-- =================================================
-             QR
-        ================================================== -->
-
-        <div
-            class="tool-card"
-            onclick="openTool('qr')"
-            role="button"
-            tabindex="0"
-            aria-label="Open QR code security scanner"
-        >
-
-            <div
-                class="tool-icon"
-                aria-hidden="true"
-            >
-                ▦
-            </div>
-
-            <h2>
-                Enter any QR
-            </h2>
-
-            <p>
-                Decode QR codes and
-                inspect their contents.
-            </p>
-
-        </div>
-
-
-    </section>
-
-
-
-    <!-- =================================================
-         COMMAND DASHBOARD
-    ================================================== -->
-
-    <button
-        type="button"
-        class="dashboard-btn"
-        onclick="openDashboard()"
-    >
-
-        📊 Command Dashboard
-
-    </button>
-
-
-</main>
-
-
-
-<!-- =====================================================
-     TOOL MODAL
-===================================================== -->
-
-<div
-    id="toolModal"
-    class="modal"
-    hidden
-    role="dialog"
-    aria-modal="true"
-    aria-label="CyberGuard Security Tool"
->
-
-    <div class="modal-box">
-
-
-        <button
-            type="button"
-            class="close-btn"
-            onclick="closeTool()"
-            aria-label="Close security tool"
-        >
-            ×
-        </button>
-
-
-        <!--
-            JavaScript dynamically loads:
-
-            URL
-            Email
-            QR
-            Social Media
-            Image
-            Video
-
-        -->
-
-        <div id="toolContent"></div>
-
-
-    </div>
-
+<div class="wrap">
+  <div class="top">
+    <h1>AI Powered<b>CYBERGUARD</b></h1>
+    <button class="pill" onclick="openGuide()">Guidelines</button>
+  </div>
+  <p class="sub">AI-powered cybersecurity and digital threat analysis platform.</p>
+  <div class="grid">
+    <button class="card" onclick="openTool('url')"><span class="ic">🔗</span><h2>Enter any URL</h2><p>Detect suspicious URLs and phishing patterns.</p></button>
+    <button class="card" onclick="openTool('image')"><span class="ic">🖼️</span><h2>Enter any image</h2><p>Inspect an image for suspicious characteristics.</p></button>
+    <button class="card" onclick="openTool('video')"><span class="ic">🎥</span><h2>Enter any video</h2><p>Inspect video properties and selected frames.</p></button>
+    <button class="card" onclick="openTool('mail')"><span class="ic">✉️</span><h2>Enter any G.Mail</h2><p>Analyze email content for phishing indicators.</p></button>
+    <button class="card" onclick="openTool('social')"><span class="ic">👥</span><h2>Enter any social media ID</h2><p>Check usernames for impersonation patterns.</p></button>
+    <button class="card" onclick="openTool('qr')"><span class="ic">▦</span><h2>Enter any QR</h2><p>Decode QR codes and inspect their contents.</p></button>
+  </div>
+  <button class="pill dash" onclick="openDash()">📊 Command Dashboard</button>
 </div>
 
+<div class="ov" id="ov"><div class="modal" id="modal"></div></div>
 
+<script>
+const MODEL='gemini-2.5-flash';
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const store={get:(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch{return d}},set:(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch{}}};
+let data=null, frames=[], busy=false;
 
-<!-- =====================================================
-     GUIDELINES MODAL
-===================================================== -->
+const TOOLS={
+ url:{t:'Enter any URL',d:'Detect suspicious URLs and phishing patterns.',in:'<input class="in" id="txt" type="text" placeholder="https://example.com/login">'},
+ image:{t:'Enter any image',d:'Checks for AI generation, manipulation, deepfake traces and scam content.',in:'<input class="in" id="file" type="file" accept="image/*">',file:1},
+ video:{t:'Enter any video',d:'Video properties and sampled frames are checked for AI generation and deepfake signs.',in:'<input class="in" id="file" type="file" accept="video/*">',file:1},
+ mail:{t:'Enter any G.Mail',d:'Paste the sender address, subject and body.',in:'<textarea class="in" id="txt" placeholder="From: support@g00gle-mail.com&#10;Subject: Urgent! Verify your account&#10;..."></textarea>'},
+ social:{t:'Enter any social media ID',d:'Enter a username with the platform, e.g. instagram @virat.kohIi',in:'<input class="in" id="txt" type="text" placeholder="instagram @username">'},
+ qr:{t:'Enter any QR',d:'Upload a QR image. It is decoded and its contents inspected.',in:'<input class="in" id="file" type="file" accept="image/*">',file:1}
+};
+const PROMPTS={
+ url:v=>`Analyze this URL for phishing, malware, typosquatting, URL shorteners, suspicious TLDs, and brand impersonation. Do not visit it; judge from structure and your knowledge.\nURL: ${v}`,
+ image:()=>`Inspect this image. Judge whether it is AI-generated (diffusion/GAN artifacts, odd hands, text, textures, lighting), edited/manipulated, a deepfake, or contains scam/phishing/fake-document content. Give ai_generated_probability 0-100.`,
+ video:m=>`These are frames sampled in order from one video. Video properties: ${m}. Judge whether the video is AI-generated or a deepfake (temporal inconsistency, face warping, lip/eye artifacts, texture flicker, unnatural motion) and whether it shows scam content. Give ai_generated_probability 0-100.`,
+ mail:v=>`Analyze this email for phishing: spoofed sender, urgency, suspicious links, credential requests, attachments, grammar.\n\n${v}`,
+ social:v=>`Check this social media username for impersonation patterns: lookalike characters (I/l, 0/O, rn/m), added words like official/support/real, brand or celebrity mimicry, scam-style naming.\nInput: ${v}`,
+ qr:v=>`This text was decoded from a QR code. Analyze it for quishing, malicious URLs, payment scams, Wi-Fi/vCard tricks.\n\nContent: ${v}`
+};
+const SCHEMA={type:'OBJECT',properties:{verdict:{type:'STRING',enum:['Safe','Suspicious','Dangerous']},risk_score:{type:'INTEGER'},ai_generated_probability:{type:'INTEGER'},summary:{type:'STRING'},findings:{type:'ARRAY',items:{type:'STRING'}},recommendations:{type:'ARRAY',items:{type:'STRING'}}},required:['verdict','risk_score','summary','findings','recommendations']};
 
-<div
-    id="guidelinesModal"
-    class="modal"
-    hidden
-    role="dialog"
-    aria-modal="true"
-    aria-label="CyberGuard Guidelines"
->
+function show(html){$('modal').innerHTML=html;$('ov').classList.add('on')}
+function closeM(){$('ov').classList.remove('on')}
+let gate=false;
+$('ov').addEventListener('click',e=>{if(e.target.id==='ov'&&!gate)closeM()});
 
-    <div class="modal-box">
+function keyBox(){return ''}
+const NETMSG='Network error: Google ke server tak request nahi pahunchi. Check: 1) internet, 2) Brave Shields off karo is site ke liye, 3) site https://swadhin119.github.io par kholo (Claude preview ya file se nahi), 4) adblock/VPN band karo.';
+function openGate(change){gate=!change;show(`<h3>Activate CYBERGUARD</h3><div class="d">Enter your Gemini API key once. It is checked and saved in this browser, so you will not be asked again.</div><input class="in" id="key" type="password" placeholder="AIza..." autocomplete="off"><div class="row"><button class="btn" id="kb" onclick="saveKey()">Activate</button>${change?'<button class="btn g" onclick="closeM()">Cancel</button>':''}</div><div id="ke"></div><div class="d" style="margin-top:16px"><a href="https://aistudio.google.com/app/apikey" target="_blank" style="color:#5aa0ff">Get a free key</a></div>`)}
+async function saveKey(){const k=$('key').value.trim(),b=$('kb'),e=$('ke');if(!k){e.innerHTML='<div class="err">Paste your API key.</div>';return}
+  b.disabled=true;b.textContent='Checking...';e.innerHTML='';
+  try{const r=await fetch('https://generativelanguage.googleapis.com/v1beta/models?pageSize=1&key='+encodeURIComponent(k));
+    if(!r.ok){const j=await r.json().catch(()=>({}));throw new Error(j.error?.message||'Invalid API key.')}
+    store.set('cg_key',k);gate=false;closeM()}
+  catch(x){e.innerHTML='<div class="err">'+esc(x instanceof TypeError?NETMSG:x.message)+'</div>';b.disabled=false;b.textContent='Activate'}}
 
+function openGuide(){show(`<h3>Guidelines</h3><div class="d">How to use CYBERGUARD</div><ul style="padding-left:20px;line-height:1.8;color:#c3cddb"><li>Your Gemini API key is saved once in this browser and sent only to Google.</li><li>Pick a tool, add your input and press Analyze.</li><li>Images up to about 15 MB. Videos are sampled into 6 frames in your browser.</li><li>AI results are an estimate. Never treat one score as proof.</li><li>Never share OTPs, passwords or card details, even if a result says Safe.</li></ul><div class="row"><button class="btn g" onclick="openGate(true)">Change API key</button><button class="btn g" onclick="closeM()">Close</button></div>`)}
 
-        <button
-            type="button"
-            class="close-btn"
-            onclick="closeGuidelines()"
-            aria-label="Close guidelines"
-        >
-            ×
-        </button>
+function openTool(k){
+  data=null;frames=[];const T=TOOLS[k];
+  show(`<h3>${T.t}</h3><div class="d">${T.d}</div>${T.in}<div id="pv"></div>${keyBox()}<div class="row"><button class="btn" id="go" onclick="run('${k}')">Analyze</button><button class="btn g" onclick="closeM()">Close</button></div><div id="out"></div>`);
+  if(T.file)$('file').addEventListener('change',()=>preview(k));
+}
 
+function preview(k){
+  const f=$('file').files[0];if(!f)return;const u=URL.createObjectURL(f);frames=[];
+  if(k==='video'){
+    $('pv').innerHTML=`<video class="prev" src="${u}" controls muted playsinline></video><div class="frames" id="fr"></div>`;
+    grabFrames(u).then(fs=>{frames=fs;$('fr').innerHTML=fs.map(s=>`<img src="${s}">`).join('')}).catch(()=>{$('out').innerHTML='<div class="err">Could not read this video format.</div>'});
+  } else $('pv').innerHTML=`<img class="prev" src="${u}">`;
+}
 
-        <h2>
-            CyberGuard Guidelines
-        </h2>
+function grabFrames(url){return new Promise((res,rej)=>{
+  const v=document.createElement('video');v.muted=true;v.playsInline=true;v.preload='auto';v.src=url;
+  v.onerror=()=>rej();
+  v.onloadedmetadata=async()=>{
+    window.vidMeta=`duration ${v.duration.toFixed(1)}s, resolution ${v.videoWidth}x${v.videoHeight}`;
+    const N=6,out=[],c=document.createElement('canvas'),sc=Math.min(1,640/v.videoWidth);
+    c.width=v.videoWidth*sc;c.height=v.videoHeight*sc;const x=c.getContext('2d');
+    for(let i=0;i<N;i++){
+      v.currentTime=Math.max(0,Math.min(v.duration-.1,v.duration*(i+.5)/N));
+      await new Promise(r=>v.onseeked=r);
+      x.drawImage(v,0,0,c.width,c.height);out.push(c.toDataURL('image/jpeg',.8));
+    }res(out)};
+})}
 
+function toB64(f){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result.split(',')[1]);r.onerror=rej;r.readAsDataURL(f)})}
+function loadImg(f){return new Promise((res,rej)=>{const i=new Image();i.onload=()=>res(i);i.onerror=rej;i.src=URL.createObjectURL(f)})}
 
-        <p>
+async function gemini(parts){
+  const key=(store.get('cg_key','')||'').trim();
+  if(!key)throw new Error('Add your Gemini API key first.');
+  const body=JSON.stringify({
+    systemInstruction:{parts:[{text:'You are CYBERGUARD, a cybersecurity threat analyst. Be precise and conservative; do not invent facts you cannot verify. Respond in JSON only. Set ai_generated_probability only for image/video, otherwise omit it.'}]},
+    contents:[{role:'user',parts}],generationConfig:{responseMimeType:'application/json',responseSchema:SCHEMA,temperature:.2}});
+  let r,j;
+  for(const m of [MODEL,'gemini-2.0-flash']){
+    try{r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${m}:generateContent?key=${encodeURIComponent(key)}`,{method:'POST',headers:{'Content-Type':'application/json'},body});}
+    catch(e){throw new Error(NETMSG)}
+    j=await r.json().catch(()=>({}));
+    if(r.ok||![404,429,503].includes(r.status))break;
+  }
+  if(!r.ok)throw new Error(j.error?.message||'Gemini request failed');
+  const t=j.candidates?.[0]?.content?.parts?.map(p=>p.text).join('')||'';
+  if(!t)throw new Error('Empty response (content may have been blocked).');
+  return JSON.parse(t);
+}
 
-            CyberGuard is designed to help
-            identify suspicious digital content.
+async function run(k){
+  if(busy)return;const out=$('out'),go=$('go');out.innerHTML='';
+  try{
+    let parts=[],label='';
+    if(k==='url'||k==='mail'||k==='social'){
+      const v=$('txt').value.trim();if(!v)throw new Error('Enter something to analyze.');
+      parts=[{text:PROMPTS[k](v)}];label=v.slice(0,60);
+    }else{
+      const f=$('file').files[0];if(!f)throw new Error('Choose a file first.');
+      label=f.name;
+      if(k==='image'){
+        if(f.size>15e6)throw new Error('Image is too large. Use one under 15 MB.');
+        parts=[{text:PROMPTS.image()},{inline_data:{mime_type:f.type||'image/jpeg',data:await toB64(f)}}];
+      }else if(k==='video'){
+        if(!frames.length)throw new Error('Frames are still loading. Try again in a moment.');
+        parts=[{text:PROMPTS.video(`${window.vidMeta||''}, size ${(f.size/1e6).toFixed(1)} MB, type ${f.type}`)},...frames.map(s=>({inline_data:{mime_type:'image/jpeg',data:s.split(',')[1]}}))];
+      }else if(k==='qr'){
+        const im=await loadImg(f),c=document.createElement('canvas');c.width=im.naturalWidth;c.height=im.naturalHeight;
+        const x=c.getContext('2d');x.drawImage(im,0,0);
+        const q=window.jsQR&&jsQR(x.getImageData(0,0,c.width,c.height).data,c.width,c.height);
+        if(!q)throw new Error('No QR code found in this image. Use a sharper, closer photo.');
+        out.innerHTML=`<div class="res"><div class="lbl"><span>Decoded content</span></div><p style="word-break:break-all;color:#fff">${esc(q.data)}</p></div>`;
+        parts=[{text:PROMPTS.qr(q.data)}];label=q.data.slice(0,60);
+      }
+    }
+    busy=true;go.disabled=true;go.innerHTML='<span class="spin"></span>Analyzing';
+    const r=await gemini(parts);
+    const prev=out.innerHTML;out.innerHTML=prev+render(r,k);
+    const h=store.get('cg_hist',[]);h.unshift({k,label,v:r.verdict,s:r.risk_score,t:Date.now()});store.set('cg_hist',h.slice(0,100));
+  }catch(e){out.innerHTML+=`<div class="err">${esc(e.message)}</div>`}
+  busy=false;go.disabled=false;go.textContent='Analyze';
+}
 
-        </p>
+function render(r,k){
+  const ai=(k==='image'||k==='video')&&r.ai_generated_probability!=null?`<div class="lbl"><span>AI-generated probability</span><span>${r.ai_generated_probability}%</span></div><div class="bar"><i style="width:${r.ai_generated_probability}%"></i></div>`:'';
+  const li=a=>(a||[]).map(x=>`<li>${esc(x)}</li>`).join('');
+  return `<div class="res"><span class="verdict v-${esc(r.verdict)}">${esc(r.verdict)}</span><div class="lbl"><span>Risk score</span><span>${r.risk_score}/100</span></div><div class="bar"><i style="width:${r.risk_score}%"></i></div>${ai}<p>${esc(r.summary)}</p><h4>Findings</h4><ul>${li(r.findings)}</ul><h4>What to do</h4><ul>${li(r.recommendations)}</ul></div>`;
+}
 
-
-        <ul>
-
-            <li>
-                Do not enter real passwords,
-                OTPs or sensitive information.
-            </li>
-
-            <li>
-                Use test data whenever possible.
-            </li>
-
-            <li>
-                A risk score is an indicator,
-                not a guaranteed security verdict.
-            </li>
-
-            <li>
-                Always verify suspicious content
-                through trusted sources.
-            </li>
-
-            <li>
-                CyberGuard analysis should not
-                replace professional security investigation.
-            </li>
-
-        </ul>
-
-
-    </div>
-
-</div>
-
-
-
-<!-- =====================================================
-     COMMAND DASHBOARD MODAL
-===================================================== -->
-
-<div
-    id="dashboardModal"
-    class="modal"
-    hidden
-    role="dialog"
-    aria-modal="true"
-    aria-label="CyberGuard Command Dashboard"
->
-
-    <div
-        class="modal-box dashboard-box"
-    >
-
-
-        <button
-            type="button"
-            class="close-btn"
-            onclick="closeDashboard()"
-            aria-label="Close dashboard"
-        >
-            ×
-        </button>
-
-
-        <h2>
-            📊 CyberGuard Command Dashboard
-        </h2>
-
-
-        <p>
-            Security analysis overview.
-        </p>
-
-
-        <!--
-            script.js automatically replaces
-            this section with dashboard statistics.
-        -->
-
-        <div
-            class="dashboard-placeholder"
-        >
-
-            Dashboard loading...
-
-        </div>
-
-
-    </div>
-
-</div>
-
-
-
-<!-- =====================================================
-     QR CODE DECODER
-===================================================== -->
-
-<script
-    src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"
-></script>
-
-
-
-<!-- =====================================================
-     CYBERGUARD JAVASCRIPT
-===================================================== -->
-
-<script
-    src="script.js?v=20261010-profix"
-></script>
-
-
+function openDash(){
+  const h=store.get('cg_hist',[]),c=v=>h.filter(x=>x.v===v).length,names={url:'URL',image:'Image',video:'Video',mail:'G.Mail',social:'Social ID',qr:'QR'};
+  show(`<h3>Command Dashboard</h3><div class="d">Your scan history, stored on this device only.</div><div class="stats"><div class="stat"><b>${h.length}</b><span>Total</span></div><div class="stat"><b style="color:#5ff0b0">${c('Safe')}</b><span>Safe</span></div><div class="stat"><b style="color:#ffd062">${c('Suspicious')}</b><span>Suspicious</span></div><div class="stat"><b style="color:#ff7b86">${c('Dangerous')}</b><span>Dangerous</span></div></div>${h.length?h.slice(0,30).map(x=>`<div class="hist"><div>${names[x.k]}<small>${esc(x.label)}</small></div><div style="text-align:right"><span class="verdict v-${x.v}" style="padding:3px 12px;margin:0">${x.v}</span><small>${x.s}/100 · ${new Date(x.t).toLocaleString()}</small></div></div>`).join(''):'<p style="color:#6a7789">No scans yet. Pick a tool to run your first scan.</p>'}<div class="row"><button class="btn g" onclick="closeM()">Close</button><button class="btn g" onclick="store.set('cg_hist',[]);openDash()">Clear history</button></div>`);
+}
+if(!store.get('cg_key',''))openGate(false);
+</script>
 </body>
-
 </html>
