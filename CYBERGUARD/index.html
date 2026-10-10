@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AI Powered CYBERGUARD</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- =========================
+         HEADER
+    ========================== -->
+
+    <header class="header">
+
+        <h1>
+            AI Powered
+            <strong>CYBERGUARD</strong>
+        </h1>
+
+        <button
+            class="guidelines-btn"
+            onclick="openGuidelines()">
+            Guidelines
+        </button>
+
+    </header>
+
+
+    <!-- =========================
+         MAIN CONTENT
+    ========================== -->
+
+    <main>
+
+        <section class="hero">
+
+            <p class="hero-text">
+                AI-powered cybersecurity and
+                digital threat analysis platform.
+            </p>
+
+        </section>
+
+
+        <!-- =========================
+             SECURITY TOOLS
+        ========================== -->
+
+        <section class="tools-grid">
+
+
+            <!-- URL -->
+
+            <div
+                class="tool-card"
+                onclick="openTool('url')">
+
+                <div class="tool-icon">
+                    🔗
+                </div>
+
+                <h2>
+                    Enter any URL
+                </h2>
+
+                <p>
+                    Detect suspicious URLs
+                    and phishing patterns.
+                </p>
+
+            </div>
+
+
+            <!-- IMAGE -->
+
+            <div
+                class="tool-card"
+                onclick="openTool('image')">
+
+                <div class="tool-icon">
+                    🖼️
+                </div>
+
+                <h2>
+                    Enter any image
+                </h2>
+
+                <p>
+                    Inspect an image for
+                    suspicious characteristics.
+                </p>
+
+            </div>
+
+
+            <!-- VIDEO -->
+
+            <div
+                class="tool-card"
+                onclick="openTool('video')">
+
+                <div class="tool-icon">
+                    🎥
+                </div>
+
+                <h2>
+                    Enter any video
+                </h2>
+
+                <p>
+                    Inspect video properties
+                    and selected frames.
+                </p>
+
+            </div>
+
+
+            <!-- EMAIL -->
+
+            <div
+                class="tool-card"
+                onclick="openTool('email')">
+
+                <div class="tool-icon">
+                    ✉️
+                </div>
+
+                <h2>
+                    Enter any G.Mail
+                </h2>
+
+                <p>
+                    Analyze email content
+                    for phishing indicators.
+                </p>
+
+            </div>
+
+
+            <!-- SOCIAL -->
+
+            <div
+                class="tool-card"
+                onclick="openTool('social')">
+
+                <div class="tool-icon">
+                    👥
+                </div>
+
+                <h2>
+                    Enter any social media ID
+                </h2>
+
+                <p>
+                    Check usernames for
+                    impersonation patterns.
+                </p>
+
+            </div>
+
+
+            <!-- QR -->
+
+            <div
+                class="tool-card"
+                onclick="openTool('qr')">
+
+                <div class="tool-icon">
+                    ▦
+                </div>
+
+                <h2>
+                    Enter any QR
+                </h2>
+
+                <p>
+                    Decode QR codes and
+                    inspect their contents.
+                </p>
+
+            </div>
+
+
+        </section>
+
+
+        <!-- =========================
+             DASHBOARD BUTTON
+        ========================== -->
+
+        <button
+            class="dashboard-btn"
+            onclick="openDashboard()">
+
+            📊 Command Dashboard
+
+        </button>
+
+    </main>
+
+
+    <!-- =========================
+         TOOL MODAL
+    ========================== -->
+
+    <div
+        id="toolModal"
+        class="modal">
+
+        <div class="modal-box">
+
+            <button
+                class="close-btn"
+                onclick="closeTool()">
+
+                ×
+
+            </button>
+
+            <div id="toolContent"></div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         GUIDELINES MODAL
+    ========================== -->
+
+    <div
+        id="guidelinesModal"
+        class="modal">
+
+        <div class="modal-box">
+
+            <button
+                class="close-btn"
+                onclick="closeGuidelines()">
+
+                ×
+
+            </button>
+
+            <h2>
+                CyberGuard Guidelines
+            </h2>
+
+            <p>
+                CyberGuard is designed to help
+                identify suspicious digital content.
+            </p>
+
+            <ul>
+
+                <li>
+                    Do not enter real passwords,
+                    OTPs or sensitive information.
+                </li>
+
+                <li>
+                    Use test data whenever possible.
+                </li>
+
+                <li>
+                    A risk score is an indicator,
+                    not a guaranteed security verdict.
+                </li>
+
+                <li>
+                    Always verify suspicious content
+                    through trusted sources.
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         DASHBOARD MODAL
+    ========================== -->
+
+    <div
+        id="dashboardModal"
+        class="modal">
+
+        <div class="modal-box dashboard-box">
+
+            <button
+                class="close-btn"
+                onclick="closeDashboard()">
+
+                ×
+
+            </button>
+
+            <h2>
+                📊 CyberGuard Command Dashboard
+            </h2>
+
+            <p>
+                Security analysis overview.
+            </p>
+
+            <div class="dashboard-placeholder">
+
+                Dashboard will be
+                activated in Step 8.
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
+<script src="script.js"></script>
+
+</body>
+
+</html>
