@@ -21,6 +21,10 @@ from app.services.image_analyzer import analyse_image
 router = APIRouter()
 logger = logging.getLogger("cyberguard.image")
 
+# Change this model name here if you verify a different model is enabled
+# for your Google AI Studio API key.
+GEMINI_MODEL = os.getenv("GEMINI_IMAGE_MODEL", "gemini-2.5-flash")
+
 
 @router.post(
     "/analyze-image",
@@ -93,10 +97,9 @@ async def post_analyze_image_ai(file: UploadFile = File(...)):
         "say this is not a definitive forensic determination."
     )
 
-    # Keep the API key out of logs and error messages.
     provider_url = (
         "https://generativelanguage.googleapis.com/v1beta/"
-        "models/gemini-2.5-flash:generateContent"
+        f"models/{GEMINI_MODEL}:generateContent"
     )
     payload = {
         "contents": [
@@ -139,25 +142,28 @@ async def post_analyze_image_ai(file: UploadFile = File(...)):
         )
 
     if response.status_code >= 400:
-        # Gemini's response body usually identifies invalid keys, quota, or model issues.
-        # Limit the log excerpt and never log the request URL/key.
+        # Never log the API key or request URL.
         provider_detail = response.text[:1200]
         logger.error(
-            "Gemini image API failed: status=%s body=%s",
+            "Gemini image API failed: model=%s status=%s body=%s",
+            GEMINI_MODEL,
             response.status_code,
             provider_detail,
         )
 
         if response.status_code == 400:
-            detail = "Gemini rejected the request (400). Check the request/model settings in Render Logs."
-        elif response.status_code == 401 or response.status_code == 403:
-            detail = "Gemini denied the request. Check that GEMINI_API_KEY is valid and has API access."
+            detail = "Gemini rejected the request (400). Check request format and model access in Render Logs."
+        elif response.status_code in (401, 403):
+            detail = "Gemini denied the request. Check GEMINI_API_KEY and API access."
         elif response.status_code == 404:
-            detail = "Gemini model/endpoint was not found (404). Check the configured model name."
+            detail = (
+                f"Gemini model '{GEMINI_MODEL}' was not found or is unavailable for this API key (404). "
+                "Set GEMINI_IMAGE_MODEL to a model listed by the Gemini API for your key, then redeploy."
+            )
         elif response.status_code == 429:
-            detail = "Gemini quota or rate limit reached (429). Check your Google AI Studio quota/billing."
+            detail = "Gemini quota or rate limit reached (429). Check your Google AI Studio quota."
         else:
-            detail = f"Gemini provider request failed (HTTP {response.status_code}). Check Render Logs for details."
+            detail = f"Gemini provider request failed (HTTP {response.status_code}). Check Render Logs."
 
         raise HTTPException(status_code=502, detail=detail)
 
@@ -185,7 +191,7 @@ async def post_analyze_image_ai(file: UploadFile = File(...)):
     return {
         "success": True,
         "filename": FilePath(file.filename or "image").name,
-        "analysis_engine": "Gemini vision-assisted review",
+        "analysis_engine": f"Gemini vision-assisted review ({GEMINI_MODEL})",
         "ai_model_status": "configured",
         "image_description": str(result.get("image_description", "Not available")),
         "assessment": str(result.get("assessment", "Inconclusive")),
