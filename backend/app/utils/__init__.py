@@ -1,3 +1,0 @@
-"""
-CyberGuard Utils Package
-"""

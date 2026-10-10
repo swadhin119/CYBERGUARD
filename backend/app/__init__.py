@@ -1,3 +1,0 @@
-"""
-CyberGuard Backend Application Package
-"""
