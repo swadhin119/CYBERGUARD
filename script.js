@@ -9,8 +9,8 @@
    CONFIG
    ========================================================= */
 
-// After deploying the backend, replace the URL below with your Render service URL.
-const CYBERGUARD_API = (window.CYBERGUARD_API_URL || "https://cyberguard-api-x8vn.onrender.com").replace(/\/$/, "");
+// Render backend URL. Keep this as the API base URL (without a trailing slash).
+const CYBERGUARD_API = "https://cyberguard-api-x8vn.onrender.com";
 
 
 /* =========================================================
@@ -125,13 +125,29 @@ function renderApiError(resultBox, message) {
 
 async function safeFetch(url, options) {
     const response = await fetch(url, options);
+    const raw = await response.text().catch(() => "");
+    const contentType = response.headers.get("content-type") || "";
+    let data;
 
-    if (!response.ok) {
-        const text = await response.text().catch(() => "");
-        throw new Error(`HTTP ${response.status}: ${text.slice(0, 200)}`);
+    try {
+        data = raw ? JSON.parse(raw) : {};
+    } catch (_error) {
+        if (/<\s*!doctype\s+html|<html[\s>]/i.test(raw)) {
+            throw new Error(`API returned an HTML page instead of JSON (HTTP ${response.status}). Check the endpoint URL: ${url}`);
+        }
+        throw new Error(`API returned an invalid JSON response (HTTP ${response.status}).`);
     }
 
-    return response.json();
+    if (!response.ok) {
+        const detail = data.detail || data.message || data.error || `HTTP ${response.status}`;
+        throw new Error(String(detail).slice(0, 300));
+    }
+
+    if (contentType && !contentType.toLowerCase().includes("json")) {
+        console.warn("CyberGuard API returned a non-JSON content type:", contentType);
+    }
+
+    return data;
 }
 
 
@@ -1583,12 +1599,10 @@ async function analyzeImage(event) {
     result.innerHTML = `<div class="result-box"><p><strong>Selected image</strong></p><img src="${preview}" alt="Selected image preview" style="display:block;max-width:100%;max-height:320px;object-fit:contain;border-radius:12px;margin:12px auto"><div class="dashboard-placeholder">Connecting to AI image review…</div></div>`;
     try {
       const form = new FormData(); form.append("file", file);
-      const response = await fetch(`${CYBERGUARD_API}/api/analyze-image-ai`, {method:"POST", body:form});
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.detail || "Image AI review failed.");
+      const data = await safeFetch(`${CYBERGUARD_API}/api/analyze-image-ai`, {method:"POST", body:form});
       const items = Array.isArray(data.observations) ? data.observations : [];
       result.innerHTML = `<div class="result-box"><span class="result-label">AI-ASSISTED REVIEW</span><h3 style="margin-top:12px">${escapeHTML(data.assessment || "Inconclusive")}</h3><div class="analysis-details"><h4>Image description</h4><p>${escapeHTML(data.image_description || "Not available")}</p></div><div class="analysis-details"><h4>Observations</h4>${items.length ? `<ul class="warning-list">${items.map(x=>`<li>${escapeHTML(x)}</li>`).join("")}</ul>` : '<p>No specific observations returned.</p>'}</div><div class="recommendation">${escapeHTML(data.recommendation || "Verify important media using trusted original sources.")}</div><p class="recommendation">${escapeHTML(data.limitations || "Visual AI review is not definitive forensic proof.")}</p></div>`;
-    } catch (err) { result.innerHTML = `<div class="result-box warning"><h3>AI image review unavailable</h3><p>${escapeHTML(err.message || "Could not contact the AI service.")}</p><p>Add GEMINI_API_KEY to Render environment variables, then redeploy.</p></div>`; }
+    } catch (err) { result.innerHTML = `<div class="result-box warning"><h3>AI image review unavailable</h3><p>${escapeHTML(err.message || "Could not contact the AI service.")}</p><p>Check the Render logs and confirm the API endpoint is correct. If the provider reports a key or quota error, fix that in Render Environment and redeploy.</p></div>`; }
 }
 
 async function analyzeVideo(event) {
@@ -1600,12 +1614,10 @@ async function analyzeVideo(event) {
     result.innerHTML = `<div class="result-box"><video controls preload="metadata" src="${preview}" style="display:block;width:100%;max-height:320px;border-radius:12px;margin-bottom:12px"></video><div class="dashboard-placeholder">Sending video for AI-assisted review…</div></div>`;
     try {
       const form = new FormData(); form.append("file", file);
-      const response = await fetch(`${CYBERGUARD_API}/api/analyze-video-ai`, {method:"POST", body:form});
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.detail || "Video AI review failed.");
+      const data = await safeFetch(`${CYBERGUARD_API}/api/analyze-video-ai`, {method:"POST", body:form});
       const items = Array.isArray(data.observations) ? data.observations : [];
       result.innerHTML = `<div class="result-box"><span class="result-label">AI-ASSISTED VIDEO REVIEW</span><h3 style="margin-top:12px">${escapeHTML(data.assessment || "Inconclusive")}</h3><div class="analysis-details"><h4>Summary</h4><p>${escapeHTML(data.summary || "Not available")}</p></div><div class="analysis-details"><h4>Observations</h4>${items.length ? `<ul class="warning-list">${items.map(x=>`<li>${escapeHTML(x)}</li>`).join("")}</ul>` : '<p>No specific observations returned.</p>'}</div><div class="recommendation">${escapeHTML(data.recommendation || "Verify important media using trusted original sources.")}</div><p class="recommendation">${escapeHTML(data.limitations || "AI visual review cannot conclusively prove a video is a deepfake.")}</p></div>`;
-    } catch (err) { result.innerHTML = `<div class="result-box warning"><h3>AI video review unavailable</h3><p>${escapeHTML(err.message || "Could not contact the AI service.")}</p><p>Add GEMINI_API_KEY to Render environment variables, then redeploy.</p></div>`; }
+    } catch (err) { result.innerHTML = `<div class="result-box warning"><h3>AI video review unavailable</h3><p>${escapeHTML(err.message || "Could not contact the AI service.")}</p><p>Check the Render logs and confirm the API endpoint is correct. If the provider reports a key or quota error, fix that in Render Environment and redeploy.</p></div>`; }
 }
 
 /* =========================================================
