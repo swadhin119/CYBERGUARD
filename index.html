@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="AI Powered CyberGuard - Cybersecurity and digital threat analysis platform">
+<meta name="theme-color" content="#050a14">
+<title>AI Powered CYBERGUARD</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;500;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css?v=3">
+</head>
+<body>
+
+<header class="header">
+  <h1>AI Powered <strong>CYBERGUARD</strong></h1>
+  <button type="button" class="guidelines-btn" onclick="openGuidelines()">Guidelines</button>
+</header>
+
+<main>
+  <p class="hero-text">AI-powered cybersecurity and digital threat analysis platform.</p>
+
+  <section class="tools-grid" aria-label="CyberGuard Security Tools">
+    <button type="button" class="tool-card" onclick="openTool('url')">
+      <span class="tool-icon" aria-hidden="true">🔗</span>
+      <h2>Enter any URL</h2>
+      <p>Detect suspicious URLs and phishing patterns.</p>
+    </button>
+    <button type="button" class="tool-card" onclick="openTool('image')">
+      <span class="tool-icon" aria-hidden="true">🖼️</span>
+      <h2>Enter any image</h2>
+      <p>Inspect an image for suspicious characteristics.</p>
+    </button>
+    <button type="button" class="tool-card" onclick="openTool('video')">
+      <span class="tool-icon" aria-hidden="true">🎥</span>
+      <h2>Enter any video</h2>
+      <p>Inspect video properties and selected frames.</p>
+    </button>
+    <button type="button" class="tool-card" onclick="openTool('email')">
+      <span class="tool-icon" aria-hidden="true">✉️</span>
+      <h2>Enter any G.Mail</h2>
+      <p>Analyze email content for phishing indicators.</p>
+    </button>
+    <button type="button" class="tool-card" onclick="openTool('social')">
+      <span class="tool-icon" aria-hidden="true">👥</span>
+      <h2>Enter any social media ID</h2>
+      <p>Check usernames for impersonation patterns.</p>
+    </button>
+    <button type="button" class="tool-card" onclick="openTool('qr')">
+      <span class="tool-icon" aria-hidden="true">▦</span>
+      <h2>Enter any QR</h2>
+      <p>Decode QR codes and inspect their contents.</p>
+    </button>
+  </section>
+
+  <button type="button" class="dashboard-btn" onclick="openDashboard()">📊 Command Dashboard</button>
+</main>
+
+<div id="modal" class="modal" role="dialog" aria-modal="true">
+  <div class="modal-box">
+    <button type="button" class="close-btn" id="closeBtn" onclick="closeModal()" aria-label="Close">×</button>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
+<script src="script.js?v=3"></script>
+</body>
+</html>
