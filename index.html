@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="AI Powered CyberGuard - Cybersecurity and digital threat analysis platform"
+    >
+
+    <meta
+        name="theme-color"
+        content="#f5f5f5"
+    >
+
+    <title>
+        AI Powered CYBERGUARD
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<header class="header">
+
+    <h1>
+        AI Powered
+        <strong>CYBERGUARD</strong>
+    </h1>
+
+
+    <button
+        type="button"
+        class="guidelines-btn"
+        onclick="openGuidelines()"
+    >
+        Guidelines
+    </button>
+
+</header>
+
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main>
+
+
+    <!-- =================================================
+         HERO
+    ================================================== -->
+
+    <section class="hero">
+
+        <p class="hero-text">
+
+            AI-powered cybersecurity and
+            digital threat analysis platform.
+
+        </p>
+
+    </section>
+
+
+
+    <!-- =================================================
+         SECURITY TOOLS
+    ================================================== -->
+
+    <section
+        class="tools-grid"
+        aria-label="CyberGuard Security Tools"
+    >
+
+
+        <!-- =================================================
+             URL
+        ================================================== -->
+
+        <div
+            class="tool-card"
+            onclick="openTool('url')"
+            role="button"
+            tabindex="0"
+            aria-label="Open URL phishing detection"
+        >
+
+            <div
+                class="tool-icon"
+                aria-hidden="true"
+            >
+                🔗
+            </div>
+
+            <h2>
+                Enter any URL
+            </h2>
+
+            <p>
+                Detect suspicious URLs
+                and phishing patterns.
+            </p>
+
+        </div>
+
+
+
+        <!-- =================================================
+             IMAGE
+        ================================================== -->
+
+        <div
+            class="tool-card"
+            onclick="openTool('image')"
+            role="button"
+            tabindex="0"
+            aria-label="Open image security analysis"
+        >
+
+            <div
+                class="tool-icon"
+                aria-hidden="true"
+            >
+                🖼️
+            </div>
+
+            <h2>
+                Enter any image
+            </h2>
+
+            <p>
+                Inspect an image for
+                suspicious characteristics.
+            </p>
+
+        </div>
+
+
+
+        <!-- =================================================
+             VIDEO
+        ================================================== -->
+
+        <div
+            class="tool-card"
+            onclick="openTool('video')"
+            role="button"
+            tabindex="0"
+            aria-label="Open video security analysis"
+        >
+
+            <div
+                class="tool-icon"
+                aria-hidden="true"
+            >
+                🎥
+            </div>
+
+            <h2>
+                Enter any video
+            </h2>
+
+            <p>
+                Inspect video properties
+                and selected frames.
+            </p>
+
+        </div>
+
+
+
+        <!-- =================================================
+             EMAIL
+        ================================================== -->
+
+        <div
+            class="tool-card"
+            onclick="openTool('email')"
+            role="button"
+            tabindex="0"
+            aria-label="Open email phishing analysis"
+        >
+
+            <div
+                class="tool-icon"
+                aria-hidden="true"
+            >
+                ✉️
+            </div>
+
+            <h2>
+                Enter any G.Mail
+            </h2>
+
+            <p>
+                Analyze email content
+                for phishing indicators.
+            </p>
+
+        </div>
+
+
+
+        <!-- =================================================
+             SOCIAL MEDIA
+        ================================================== -->
+
+        <div
+            class="tool-card"
+            onclick="openTool('social')"
+            role="button"
+            tabindex="0"
+            aria-label="Open social media impersonation analysis"
+        >
+
+            <div
+                class="tool-icon"
+                aria-hidden="true"
+            >
+                👥
+            </div>
+
+            <h2>
+                Enter any social media ID
+            </h2>
+
+            <p>
+                Check usernames for
+                impersonation patterns.
+            </p>
+
+        </div>
+
+
+
+        <!-- =================================================
+             QR
+        ================================================== -->
+
+        <div
+            class="tool-card"
+            onclick="openTool('qr')"
+            role="button"
+            tabindex="0"
+            aria-label="Open QR code security scanner"
+        >
+
+            <div
+                class="tool-icon"
+                aria-hidden="true"
+            >
+                ▦
+            </div>
+
+            <h2>
+                Enter any QR
+            </h2>
+
+            <p>
+                Decode QR codes and
+                inspect their contents.
+            </p>
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- =================================================
+         COMMAND DASHBOARD
+    ================================================== -->
+
+    <button
+        type="button"
+        class="dashboard-btn"
+        onclick="openDashboard()"
+    >
+
+        📊 Command Dashboard
+
+    </button>
+
+
+</main>
+
+
+
+<!-- =====================================================
+     TOOL MODAL
+===================================================== -->
+
+<div
+    id="toolModal"
+    class="modal"
+    role="dialog"
+    aria-modal="true"
+    aria-label="CyberGuard Security Tool"
+>
+
+    <div class="modal-box">
+
+
+        <button
+            type="button"
+            class="close-btn"
+            onclick="closeTool()"
+            aria-label="Close security tool"
+        >
+            ×
+        </button>
+
+
+        <!--
+            JavaScript dynamically loads:
+
+            URL
+            Email
+            QR
+            Social Media
+            Image
+            Video
+
+        -->
+
+        <div id="toolContent"></div>
+
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     GUIDELINES MODAL
+===================================================== -->
+
+<div
+    id="guidelinesModal"
+    class="modal"
+    role="dialog"
+    aria-modal="true"
+    aria-label="CyberGuard Guidelines"
+>
+
+    <div class="modal-box">
+
+
+        <button
+            type="button"
+            class="close-btn"
+            onclick="closeGuidelines()"
+            aria-label="Close guidelines"
+        >
+            ×
+        </button>
+
+
+        <h2>
+            CyberGuard Guidelines
+        </h2>
+
+
+        <p>
+
+            CyberGuard is designed to help
+            identify suspicious digital content.
+
+        </p>
+
+
+        <ul>
+
+            <li>
+                Do not enter real passwords,
+                OTPs or sensitive information.
+            </li>
+
+            <li>
+                Use test data whenever possible.
+            </li>
+
+            <li>
+                A risk score is an indicator,
+                not a guaranteed security verdict.
+            </li>
+
+            <li>
+                Always verify suspicious content
+                through trusted sources.
+            </li>
+
+            <li>
+                CyberGuard analysis should not
+                replace professional security investigation.
+            </li>
+
+        </ul>
+
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     COMMAND DASHBOARD MODAL
+===================================================== -->
+
+<div
+    id="dashboardModal"
+    class="modal"
+    role="dialog"
+    aria-modal="true"
+    aria-label="CyberGuard Command Dashboard"
+>
+
+    <div
+        class="modal-box dashboard-box"
+    >
+
+
+        <button
+            type="button"
+            class="close-btn"
+            onclick="closeDashboard()"
+            aria-label="Close dashboard"
+        >
+            ×
+        </button>
+
+
+        <h2>
+            📊 CyberGuard Command Dashboard
+        </h2>
+
+
+        <p>
+            Security analysis overview.
+        </p>
+
+
+        <!--
+            script.js automatically replaces
+            this section with dashboard statistics.
+        -->
+
+        <div
+            class="dashboard-placeholder"
+        >
+
+            Dashboard loading...
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     QR CODE DECODER
+===================================================== -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"
+></script>
+
+
+
+<!-- =====================================================
+     CYBERGUARD JAVASCRIPT
+===================================================== -->
+
+<script
+    src="script.js?v=20261009-qr-fix"
+></script>
+
+
+</body>
+
+</html>
