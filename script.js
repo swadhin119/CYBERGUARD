@@ -10,7 +10,7 @@
    ========================================================= */
 
 // After deploying the backend, replace the URL below with your Render service URL.
-const CYBERGUARD_API = (window.CYBERGUARD_API_URL || "https://YOUR-BACKEND.onrender.com").replace(/\/$/, "");
+const CYBERGUARD_API = (window.CYBERGUARD_API_URL || "https://cyberguard-api-x8vn.onrender.com").replace(/\/$/, "");
 
 
 /* =========================================================
